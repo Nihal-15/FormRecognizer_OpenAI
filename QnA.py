@@ -27,6 +27,8 @@ account_key = os.environ['BLOB_ACCOUNT_KEY']
 connect_str = f"DefaultEndpointsProtocol=https;AccountName={account_name};AccountKey={account_key};EndpointSuffix=core.windows.net"
 container_name = os.environ['BLOB_CONTAINER_NAME']
 
+os.makedirs('data', mode = 0o777, exist_ok = True) 
+
 files_data = get_all_files()
 files_data = list(map(lambda x: {'filename': x['filename']}, files_data))
 
@@ -39,18 +41,7 @@ for fd in files_data:
 
 
 file_name = files_data[1]['filename']
-#
-colorprint('file_name to analyze : ', file_name)       
-#
-
-'''
-from urllib.request import urlopen
-import numpy as np
-
-
-req = urlopen(formUrl)
-img = np.asarray(bytearray(req.read()), dtype=np.uint8)
-'''
+colorprint('\nAnalyzing file : '+ file_name)       
 
 file_sas = generate_blob_sas(account_name, container_name, file_name, account_key= account_key, permission='r', expiry=datetime.utcnow() + timedelta(hours=1))
 formUrl=f"https://{account_name}.blob.core.windows.net/{container_name}/{quote(file_name)}?{file_sas}" 
@@ -65,9 +56,9 @@ layout = poller.result()
 print('Extracted dictionary with keys: ', end='')
 txt_layout=str( json.dumps(layout.to_dict()).encode('utf-8'))
 print(layout.to_dict().keys())
-with open(os.path.splitext(file_name)[0]+'_layout.txt', 'w') as f:
+with open('data\\'+os.path.splitext(file_name)[0]+'_layout.txt', 'w') as f:
    f.write(txt_layout)
-colorprint('Writing file with raw results: '+os.path.splitext(file_name)[0]+'_layout.txt','77')
+colorprint('Writing file with raw results: data\\'+os.path.splitext(file_name)[0]+'_layout.txt','77')
 
 colorprint('\nEXTRACTING:')
 
@@ -108,9 +99,9 @@ for t in layout.tables:
 colorprint('\nFORM RECOGNIZER CLEANED RESULTS:')
 print(results[0:20][0:100])
 text  = results
-with open(os.path.splitext(file_name)[0]+'_layout_formatted.txt', 'w') as f:
+with open('data\\'+os.path.splitext(file_name)[0]+'_layout_formatted.txt', 'w') as f:
    f.write(str(text))
-colorprint('Writing file with formatted formrecognizer results: '+os.path.splitext(file_name)[0]+'_layout_formatted.txt','77')
+colorprint('Writing file with formatted formrecognizer results: '+'data\\'+os.path.splitext(file_name)[0]+'_layout_formatted.txt','77')
 
 
 colorprint('CALCULATING EMBEDDINGS')
@@ -130,7 +121,7 @@ for k, t in enumerate(text):
     #those would be normally stored in redisd
    
 
-resultfile=os.path.splitext(file_name)[0]+'_embedded.txt'
+resultfile='data\\'+os.path.splitext(file_name)[0]+'_embedded.txt'
 with open(resultfile, 'w') as f2:
    f2.write(str(all_embeddings))
 colorprint('Writing file with embeddings results: '+os.path.splitext(file_name)[0]+'_embedded.txt','77')
@@ -146,7 +137,7 @@ prompt = f"{explicit_prompt}{restart_sequence}{question}"
 #with open('lastprompt.txt','w')as f3:
 #    f3.write(prompt)
 
-model ='text-davinci-003'
+model = os.environ['OPENAI_QnA_MODEL'] #e.g. 'text-davinci-003' deployment
 temperature =0.0
 tokens_response = 100
 
