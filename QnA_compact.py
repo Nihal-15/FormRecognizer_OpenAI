@@ -63,16 +63,16 @@ for k, t in enumerate(text):
     context= context+t # for future use in prompt
 
 colorprint("QUERING OPENAI USING EXTRACTED TEXT AS CONTEXT:")
-
+question_text=[]
 response_text=[]
 instruction = question[0]
 colorprint(instruction,'20')
 for q in question[1:]:
     
-    print('----')
-    print(f"{instruction}{q}")
+    #print('----')
+    #print(f"{instruction}{q}")
 
-    prompt = f"{context}{restart_sequence}{instruction}{q}"
+    prompt = f"{context}{restart_sequence}{instruction}{''+q}"
     try:
         response = openai.Completion.create(
             engine=model,
@@ -85,7 +85,7 @@ for q in question[1:]:
             stop=None
         )
     except:
-        time.sleep(4)
+        time.sleep(5)
         response = openai.Completion.create(
             engine=model,
             prompt=prompt,
@@ -94,11 +94,14 @@ for q in question[1:]:
             top_p=1,
             frequency_penalty=1,
             presence_penalty=1,
-            stop='\n'
+            stop=None
         )
-    r=response['choices'][0]['text'].splitlines()[0]
-    print(q+': '+ r)
+    r=response['choices'][0]['text']#.splitlines()[1]
+    colorprint(q, '33', end='')
+    colorprint(r,'22')
+    #print(q+': '+ r)
     response_text.append(r)
+    question_text.append(q)
 
 
 
@@ -108,3 +111,14 @@ with open(context_file_name, 'w') as f1:
 response_file_name =os.path.join('data','response'+os.path.splitext(file_name)[0]+'txt')
 with open(response_file_name, 'w') as f2:
    f2.write(str(response_text))  
+
+import pandas as pd
+print(question_text)
+print(response_text)
+
+df = pd.DataFrame(question_text,columns =['Q'])
+df['A']=response_text
+
+df.to_csv('data/res.csv')
+
+print(df)
