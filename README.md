@@ -12,9 +12,14 @@ For it to work you will need several resources and preparartion:
 
 Then:
 
-Upload the data to the storage, note the storage name, container, endpoint and key
-Note key and endpoint to other services in Azure
-clone this repo 
-fill the .env file with data from your resources
+1. Upload the data to the storage, note the storage name, container, endpoint and key
+2. Note key and endpoint to other services in Azure
+3. clone this repo 
+4. fill the .env file with data from your resources
+5. create virtual environment for the project and install requirements:
+  ```
+  python -m venv .venv
+  pip install  -r requirements.txt
+  ```
 
 enjoy
