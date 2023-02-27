@@ -2,3 +2,4 @@
 .venv
 *.xlsx
 *.ipynb
+data/**

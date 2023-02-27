@@ -1,0 +1,25 @@
+Extract following information from the text, do not aassume information, asnwer as briefly and precisely as possible:
+
+Hospital name
+Patient Name
+Patient Address
+Patient postcode
+DOB
+NHS number 
+Hospital number
+Hostpital Address
+Hospital postcode
+PO number
+Prescription Start Date/Prescriber signature date
+Prescription type (New patient or continuation)
+Drug
+Form
+Strength/dosage in mg or ml
+Frequency
+Route
+Induction /loading dose (or is it present)
+Off Label tag
+delivery frequency
+total duration (weeks/days, shouldn't be longer then delivery frequendcy)
+Prescriber signature
+Clinically screen - second signature 

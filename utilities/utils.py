@@ -12,7 +12,7 @@ from utilities.translator import *
 import tiktoken
 
 def initialize(engine='davinci'):
-    print('INITIALIZING OPENAI CONNECTION')
+
     openai.api_type = "azure"
     openai.api_base = os.getenv('OPENAI_API_BASE')
     openai.api_version = "2022-12-01"
