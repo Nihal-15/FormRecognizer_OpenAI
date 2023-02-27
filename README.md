@@ -3,6 +3,8 @@ This repo is a simple example how to sticht together two of Microsoft cognitive 
 If you would like to add a larger knowledge base to your solution you will need to embedd it and add it and we recommend using approach in this repository:
 https://github.com/ruoccofabrizio/azure-open-ai-embeddings-qna/
 
+Our document is a scan of a document with multiple tables so is first 'cracked' by form recognizer (layout model) and then the result is formatted, cleaned and passed to OpenAI as prompt context.  
+
 There is no UI for now. 
 
 For it to work you will need several resources and preparartion:
@@ -16,9 +18,9 @@ Then:
 
 1. Upload the data to the storage, note the storage name, container, endpoint and key
 2. Note key and endpoint to other services in Azure
-3. clone this repo 
-4. fill the .env file with data from your resources
-5. create virtual environment for the project and install requirements:
+3. Clone this repo 
+4. Fill the .env file with data from your resources
+5. Create virtual environment for the project and install requirements:
   ```
   python -m venv .venv
   pip install  -r requirements.txt
