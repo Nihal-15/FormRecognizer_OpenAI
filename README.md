@@ -1,7 +1,9 @@
 # FormRecognizer_OpenAI
-This repo is a simple example how to sticht together two of Microsoft cognitive services - Form recotnizer and Azure Open AI.
+This repo is a simple example how to sticht together two of Microsoft cognitive services - Formrecognizer and Azure Open AI. The assumption is that when asking a question to OpenAI you want to have the input from ONE document incuded as context and that it doesn't exclude prompt limit. 
+If you would like to add a larger knowledge base to your solution you will need to embedd it and add it and we recommend using approach in this repository:
+https://github.com/ruoccofabrizio/azure-open-ai-embeddings-qna/
 
-It doesn't include any UI for now.
+There is no UI for now. 
 
 For it to work you will need several resources and preparartion:
 
