@@ -5,13 +5,10 @@ from datetime import datetime, timedelta
 import os,json
 from dotenv import load_dotenv
 from utilities.azureblobstorage import get_all_files
-#from utilities.utils import convert_file_and_add_embeddings,  add_embeddings
 from utilities.utils import initialize
 from utilities.utils import colorprint
 from utilities.formrecognizer import analyze_read
-#from urllib.request import urlopen
 from urllib.parse import *
-#import numpy as np
 import tiktoken
 from openai.embeddings_utils import get_embedding, cosine_similarity
 import openai 
