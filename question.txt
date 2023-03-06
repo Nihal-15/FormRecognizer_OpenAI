@@ -1,24 +1,26 @@
-Extract following information from the text, do not assume information, give just one information. remove all initial newlines:
-Hospital name
-Patient Name
-Patient Address
-Patient postcode
-DOB
-NHS number 
-Hospital number
-Hostpital Address
-Hospital postcode
-PO number
-Prescription Start Date/Prescriber signature date
-Prescription type (New patient or continuation)
-Drug
-Form
-Strength/dosage in mg or ml
-Frequency
-Route
-Induction /loading dose (or is it present)
-Off Label tag
-delivery frequency
-total duration (weeks/days, shouldn't be shorter then delivery frequendcy)
-Prescriber signature
-Clinically screen - second signature 
+Extract the following information from the text, give just one information. remove all initial newlines, if not present mention not in text:
+- Patient Name:
+- Patient Address:
+- Patient postcode:
+- DOB:
+- NHS Number:
+- Hospital Number:
+- Service (Gastroenterology, Rheumatology, Cardiology, Neurology, Endocrinology, Oncology, Not present):
+- Hospital Name:
+- Hospital Address:
+- Hospital Postcode:
+- Purchase Order Number:
+- Prescription Start Date/Prescriber signature date:
+- Prescription Type (New patient or Renewal):
+- Prescribed Drugs:
+- Form (pen, syringe, tablet):
+- Strength/dosage in mg or ml:
+- Prescribed dose:
+- Frequency of drug:
+- Route:
+- Induction / loading dose (or is it present):
+- Off Label:
+- delivery frequency (weeks/days, convert weeks into days):
+- Total duration (weeks/days, shouldn't be shorter than delivery frequency, convert weeks into days):
+- Prescriber signature:
+- Clinically screen - second signature:
