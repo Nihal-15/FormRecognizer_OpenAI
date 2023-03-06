@@ -48,7 +48,7 @@ def get_context(formUrl,file_name):
     colorprint("QUERING OPENAI USING EXTRACTED TEXT AS CONTEXT:")
     return(context)
 
-def get_openAI_response(context='lores ipsum',question=['tl;dr'],model='text-davinci-003',temperature=0,tokens_response=15,restart_sequence=15):
+def get_openAI_response(context='lores ipsum',question=['tl;dr'],model='text-davinci-003',temperature=1,tokens_response=15,restart_sequence=15):
     question_text=[]
     response_text=[]
     instruction = question[0]
@@ -61,9 +61,9 @@ def get_openAI_response(context='lores ipsum',question=['tl;dr'],model='text-dav
                 prompt=prompt,
                 temperature=temperature,
                 max_tokens=tokens_response,
-                top_p=1,
-                frequency_penalty=1,
-                presence_penalty=1,
+                top_p=0.5,
+                frequency_penalty=0,
+                presence_penalty=0,
                 stop=None
             )
         except:
@@ -73,9 +73,9 @@ def get_openAI_response(context='lores ipsum',question=['tl;dr'],model='text-dav
                 prompt=prompt,
                 temperature=temperature,
                 max_tokens=tokens_response,
-                top_p=1,
-                frequency_penalty=1,
-                presence_penalty=1,
+                top_p=0.5,
+                frequency_penalty=0,
+                presence_penalty=0,
                 stop=None
             )
         r=response['choices'][0]['text'].strip(' \n\:?')
