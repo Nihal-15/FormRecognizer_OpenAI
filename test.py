@@ -26,7 +26,7 @@ os.makedirs('data', mode = 0o777, exist_ok = True)
 
 def get_context(formUrl,file_name):
     file_name_root = os.path.splitext(file_name)[0] 
-    context_file_name = os.path.join('data','context_'+file_name_root+'.txt') 
+    context_file_name = os.path.join('data','context_'+file_name_root+'txt') 
     colorprint('ANALYZING FILE : '+ file_name)
 
     try: 
@@ -104,24 +104,12 @@ for fd in files_data:
 file_name = files_data[1]['filename']
 for file in files_data[1:]:
     file_name=file['filename']
-    try:
-        file_name_root = os.path.splitext(file_name)[0] 
-        file_sas = generate_blob_sas(account_name, container_name, file_name, account_key= account_key, permission='r', expiry=datetime.utcnow() + timedelta(hours=1))
-        formUrl=f"https://{account_name}.blob.core.windows.net/{container_name}/{quote(file_name)}?{file_sas}" 
-
-
-        context = get_context(formUrl,file_name)
-        openAIresponse = get_openAI_response(context,question,model=model,temperature =0.0, tokens_response=15,restart_sequence='\n\n')
-        question_text = openAIresponse[0]
-        response_text = openAIresponse[1]
-
-        response_file_name =os.path.join('data','response_'+file_name_root+'.txt')
-        with open(response_file_name, 'w') as f2:
-            f2.write(str(response_text))  
-        df[file_name_root]=response_text
-    except:
-        colorprint("File couldn't be processed",'9')
-
+    file_name_root = os.path.splitext(file_name)[0] 
+    file_sas = generate_blob_sas(account_name, container_name, file_name, account_key= account_key, permission='r', expiry=datetime.utcnow() + timedelta(hours=1))
+    formUrl=f"https://{account_name}.blob.core.windows.net/{container_name}/{quote(file_name)}?{file_sas}" 
+    context = get_context(formUrl,file_name)
+    print(context)
+   
 
 df.to_csv(f"data/result.csv")
 print(df)
