@@ -28,12 +28,14 @@ model = os.environ['OPENAI_QnA_MODEL'] #e.g. 'text-davinci-003' deployment
 os.makedirs('data', mode = 0o777, exist_ok = True) 
 
 def get_context(formUrl,file_name):
-    file_name_root = os.path.splitext(file_name)[0]  
-    colorprint('ANALYZING FILE : '+ file_name) 
+    file_name_root = os.path.splitext(file_name)[0] 
+    context_file_name = os.path.join('data','context_'+file_name_root+'txt') 
+    colorprint('ANALYZING FILE : '+ file_name)
+
     try: 
-        with open(os.path.join('data',file_name_root+'_fr_context.txt')) as f:
+        with open(context_file_name) as f:
             context =f.read()
-            colorprint(f"Found file {file_name_root}_fr_context.txt with extracted content for context. \nReading file, NOT sending document to Form Recognizer.",'87')
+            colorprint(f"Found file {context_file_name} with extracted content for context. \nReading file, NOT sending document to Form Recognizer.",'87')
     except:
         colorprint('Sending the document to Form Recognizer to extract content')
         #file_sas = generate_blob_sas(account_name, container_name, file_name, account_key= account_key, permission='r', expiry=datetime.utcnow() + timedelta(hours=1))
@@ -42,9 +44,9 @@ def get_context(formUrl,file_name):
         context=''
         for k, t in enumerate(text):
             context = context+t # for future use in prompt
-        with open(os.path.join('data',file_name_root+'_fr_context.txt'), 'w') as f:
+        with open(context_file_name, 'w') as f:
             f.write(context)  # text has to be string not a list
-        colorprint(f"Writing file {file_name_root}_fr_context.txt",'44')
+        colorprint(f"Writing context file {context_file_name}",'44')
     colorprint("QUERING OPENAI USING EXTRACTED TEXT AS CONTEXT:")
     return(context)
 
@@ -67,7 +69,7 @@ def get_openAI_response(context='lores ipsum',question=['tl;dr'],model='text-dav
                 stop=None
             )
         except:
-            time.sleep(5)
+            time.sleep(7)
             response = openai.Completion.create(
                 engine=model,
                 prompt=prompt,
@@ -116,10 +118,7 @@ for file in files_data:
         question_text = openAIresponse[0]
         response_text = openAIresponse[1]
 
-        context_file_name = os.path.join('data','context'+os.path.splitext(file_name)[0]+'txt')
-        with open(context_file_name, 'w') as f1:
-            f1.write(str(context))
-        response_file_name =os.path.join('data','response'+os.path.splitext(file_name)[0]+'txt')
+        response_file_name =os.path.join('data','response_'+file_name_root+'txt')
         with open(response_file_name, 'w') as f2:
             f2.write(str(response_text))  
         df[file_name_root]=response_text
